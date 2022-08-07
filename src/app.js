@@ -8,6 +8,10 @@ const app = express()
 
 app.use(express.json())
 
+app.get('/', (req, res) => {
+    res.send('App is up and running.')
+})
+
 
 app.post('/users/new', async (req, res) => {
     const user = new User(req.body)
