@@ -39,4 +39,8 @@ app.post('/tickets/markAsClosed', (req, res) => {
     res.send('Marked as Closed')
 })
 
+app.delete('/tickets/delete', (req, res) => {
+    res.send('Ticket Deleted')
+})
+
 module.exports = app
