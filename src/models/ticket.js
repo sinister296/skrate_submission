@@ -18,7 +18,7 @@ const ticketSchema = new mongoose.Schema({
     },
     assignedTo: {
         type: String,
-        default: 'abc'
+        default: 'notAssigned'
     }
 },{
     timestamps: true

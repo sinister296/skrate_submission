@@ -46,12 +46,18 @@ app.get('/tickets/', async (req, res) => {
 });
 
 app.post('/tickets/new', auth, async (req, res) => {
-    const ticket = new Ticket({
-        ...req.body
-    })
+    
     try {
+
+        const user = await User.findOne({role: 'employee'})
+
+        const ticket = new Ticket({
+            ...req.body,
+            assignedTo: user.username
+        })
+
         await ticket.save()
-        res.status(201).send({ticket})
+        res.status(201).send(`${ticket.title} assigned to ${user.username}`)
     } catch (e) {
         res.status(400).send(e)
     }
