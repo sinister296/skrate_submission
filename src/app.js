@@ -11,7 +11,7 @@ app.use(express.json())
 
 app.get('/', (req, res) => {
     res.send('App is up and running.')
-})
+});
 
 
 app.post('/users/new', async (req, res) => {
@@ -24,12 +24,22 @@ app.post('/users/new', async (req, res) => {
     } catch (e) {
         res.status(400).send(e)
     }
-})
+});
 
 app.get('/tickets/all', async (req, res) => {
-    const filters = req.query
     try {
-        res.send(filters)
+
+        const tickets = await Ticket.find()
+        res.send(tickets)
+    } catch (e) {
+        res.status(400).send(e)
+    }
+});
+
+app.get('/tickets/', async (req, res) => {
+    try {
+        const tickets = await Ticket.find()
+        res.send(tickets)
     } catch (e) {
         res.status(400).send(e)
     }
@@ -46,11 +56,17 @@ app.post('/tickets/new', auth, async (req, res) => {
     } catch (e) {
         res.status(400).send(e)
     }
-})
+});
 
-app.post('/tickets/markAsClosed', (req, res) => {
-    res.send('Marked as Closed')
-})
+app.post('/tickets/markAsClosed', auth, (req, res) => {
+    
+    try {
+
+        res.send('Marked as Closed')
+    } catch (e) {
+        res.status(400).send(e)
+    }
+});
 
 app.post('/tickets/delete', async (req, res) => {
     try {
@@ -60,6 +76,6 @@ app.post('/tickets/delete', async (req, res) => {
     } catch (e) {
         res.status(500).send(e)
     }
-})
+});
 
 module.exports = app
