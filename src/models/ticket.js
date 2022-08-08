@@ -10,7 +10,7 @@ const ticketSchema = new mongoose.Schema({
     },
     status: {
         type: Boolean,
-        default: false
+        default: "open"
     },
     priority: {
         type: String,
