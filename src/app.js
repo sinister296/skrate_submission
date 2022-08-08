@@ -2,12 +2,14 @@ const express = require('express')
 const User = require('./models/user')
 const Ticket = require('./models/ticket')
 const auth = require('./middleware/auth')
+const morgan = require('morgan')
 require('./dataBase/mongoose')
 
 const app = express()
 
 
 app.use(express.json())
+app.use(morgan('combined'))
 
 app.get('/', (req, res) => {
     res.send('App is up and running.')
