@@ -49,7 +49,6 @@ app.post('/tickets/new', auth, async (req, res) => {
     const ticket = new Ticket({
         ...req.body
     })
-    console.log(ticket)
     try {
         await ticket.save()
         res.status(201).send({ticket})
@@ -58,17 +57,34 @@ app.post('/tickets/new', auth, async (req, res) => {
     }
 });
 
-app.post('/tickets/markAsClosed', auth, (req, res) => {
+app.post('/tickets/markAsClosed', auth, async (req, res) => {
     
     try {
+        const ticketID = req.body.ticketID
+        const ticket = await Ticket.findById({_id: ticketID})
+        const allTickets = await Ticket.find({assignedTo: ticket.assignedTo})
+        const highPriority = false
+        allTickets.forEach(highPrioityTicketActive)
 
-        res.send('Marked as Closed')
+        function highPrioityTicketActive(thisTicket) {
+            if(thisTicket.priority === high)
+                highPriority = true
+        }
+
+        if(highPriority){
+            throw new Error()
+        }
+
+        ticket.status = 'closed'
+        ticket.save()
+
+        res.send(ticket)
     } catch (e) {
-        res.status(400).send(e)
+        res.status(400).send('error: A higher priority task remains to be closed')
     }
 });
 
-app.post('/tickets/delete', async (req, res) => {
+app.post('/tickets/delete', auth, async (req, res) => {
     try {
         const id = req.body.id
         const ticket = await Ticket.findOneAndDelete({ _id: id})
