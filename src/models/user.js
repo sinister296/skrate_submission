@@ -1,19 +1,19 @@
 const mongoose = require('mongoose')
-const jwl = require('jsonwebtoken')
+const jwt = require('jsonwebtoken')
 
 
 const userSchema = new mongoose.Schema({
     username: {
-        type: String
+        type: String,
+        required: true
     },
     role: {
-        type: String
+        type: String,
+        default: "employee"
     },
-    tokens:[{
-        token: {
-            type: String
-        }
-    }]
+    token:{
+        type: String
+    }
 }, {
     timestamps: true
 })
@@ -28,7 +28,7 @@ userSchema.methods.generateAuthToken = async function () {
     const user = this
     const token = jwt.sign({_id: user._id.toString() }, "skrateusertoken")
 
-    user.tokens = user.tokens.concat({ token })
+    user.token = token
     await user.save()
     return token
 }
