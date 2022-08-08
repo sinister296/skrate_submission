@@ -9,15 +9,16 @@ const ticketSchema = new mongoose.Schema({
         type: String
     },
     status: {
-        type: Boolean,
-        default: "open"
+        type: String,
+        default: 'open'
     },
     priority: {
         type: String,
-        default: "low"
+        default: 'low'
     },
     assignedTo: {
-        type: String
+        type: String,
+        default: 'abc'
     }
 },{
     timestamps: true
