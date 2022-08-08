@@ -13,19 +13,20 @@ const ticketSchema = new mongoose.Schema({
         default: false
     },
     priority: {
-        type: String
+        type: String,
+        default: "low"
     },
     assignedTo: {
         type: String
-    },
-    owner: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'User'
     }
 },{
     timestamps: true
 })
+
+
+ticketSchema.methods.findTickets = async function (filters) {
+    console.log(filters)
+}
 
 const Ticket = mongoose.model('Ticket', ticketSchema)
 
