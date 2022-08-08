@@ -14,6 +14,8 @@ app.get('/', (req, res) => {
 });
 
 
+// Creates New User
+// Default role: employee
 app.post('/users/new', async (req, res) => {
 
     try {
@@ -26,6 +28,9 @@ app.post('/users/new', async (req, res) => {
     }
 });
 
+
+
+// Gets all tickets
 app.get('/tickets/all', async (req, res) => {
     try {
 
@@ -36,15 +41,38 @@ app.get('/tickets/all', async (req, res) => {
     }
 });
 
+
+
+//Gets tickets with parameters
 app.get('/tickets/', async (req, res) => {
     try {
-        const tickets = await Ticket.find()
+        const filters = {};
+
+        if(req.query.priority) {
+            filters.priority = req.query.priority
+        }
+
+        if(req.query.status) {
+            filters.status = req.query.status
+        }
+
+        if(req.query.title) {
+            filters.title = req.query.title
+        }
+
+        console.log(filters)
+        const tickets = await Ticket.find(filters)
         res.send(tickets)
     } catch (e) {
         res.status(400).send(e)
     }
 });
 
+
+// Creates new ticket
+// Admin auth required
+// Default priority: low
+// Default status: open
 app.post('/tickets/new', auth, async (req, res) => {
     
     try {
@@ -63,6 +91,9 @@ app.post('/tickets/new', auth, async (req, res) => {
     }
 });
 
+
+// Marks ticket as closed
+// Admin auth required
 app.post('/tickets/markAsClosed', auth, async (req, res) => {
     
     try {
@@ -90,6 +121,10 @@ app.post('/tickets/markAsClosed', auth, async (req, res) => {
     }
 });
 
+
+
+// Deletes a ticket
+// Admin auth required
 app.post('/tickets/delete', auth, async (req, res) => {
     try {
         const id = req.body.id

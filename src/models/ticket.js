@@ -10,11 +10,13 @@ const ticketSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        default: 'open'
+        default: 'open',
+        enum : ['open','closed'],
     },
     priority: {
         type: String,
-        default: 'low'
+        default: 'low',
+        enum : ['low','medium','high'],
     },
     assignedTo: {
         type: String,
